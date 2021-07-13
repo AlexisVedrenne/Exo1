@@ -8,6 +8,7 @@ const ovh = require('ovh')({
     consumerKey: 'MCPucWVerDskP4nz7T9UnKmeom50vkx0'
   });
 
+  //Variable qui fait office d'objet et permet de lancer le serveur, sert aussi de routeur sur le cite
 let App={
     Start:function(port){
         console.log('Serveur lancer')
@@ -37,6 +38,7 @@ let App={
 
 let app = App.Start(8080)
 
+//Evenement index qui va diriger sur la pages d'acceuil du cite
 app.on('index',function(response){
     fs.readFile('index.html','utf-8',(err,data)=>{
         if(err){
@@ -46,6 +48,7 @@ app.on('index',function(response){
             response.end(data)
         }
 })})
+//Evenement recap qui va diriger vers le récapitulatif
 app.on('recap',function(request,response){
     fs.readFile('pages/recap.html','utf-8',(err,data)=>{
         if(err){
@@ -63,6 +66,7 @@ app.on('recap',function(request,response){
         }
     })
 })
+//Evenement qui permet d'envoyer le sms au numéro spécifier dans le formulaire
 app.on('sms',function(request,response){
     ovh.request('GET', '/sms', function (err, serviceName) {
         if(err) {
