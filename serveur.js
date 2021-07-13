@@ -36,6 +36,7 @@ let App={
 }
 
 let app = App.Start(8080)
+
 app.on('index',function(response){
     fs.readFile('index.html','utf-8',(err,data)=>{
         if(err){
@@ -57,6 +58,7 @@ app.on('recap',function(request,response){
             data=data.replace('{{tel}}',query.tel)
             data=data.replace('{{mail}}',query.email)
             data=data.replace('{{adresse}}',query.adresse)
+            data=data.replace('{{date}}',query.date)
             response.end(data)
         }
     })
