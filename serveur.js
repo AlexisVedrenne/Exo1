@@ -1,20 +1,12 @@
 let http= require('http')
 let fs= require('fs')
 let url= require('url')
-const localtunnel = require('localtunnel');
 const EventEmitter = require('events')
 const ovh = require('ovh')({
     appKey: 'Xw9N8B3qYjdLLJac',
     appSecret: 'aQrjqSxKcidBzHMJi1BHQMGBUqskb8KL',
     consumerKey: 'MCPucWVerDskP4nz7T9UnKmeom50vkx0'
   });
-
-(async () => {
-  const tunnel = await localtunnel({ port: 8080 });
-  tunnel.url;
-  tunnel.on('close', () => {
-  });
-})();
 
 let App={
     Start:function(port){
@@ -24,7 +16,8 @@ let App={
             response.writeHead(200,{
                 'content-type': 'text/html; charset=utf-8'                
             })
-            if(request.url==='/'){              
+            if(request.url==='/'){  
+                console.log(request.url)            
                 emitter.emit('index',response)
             }
             else if(request.url.includes('/recap')){
@@ -34,7 +27,6 @@ let App={
                 emitter.emit('sms',request,response)
             }
             else{
-                console.log(request.url)
                 response.end()
             }
         }).listen(port)
@@ -78,7 +70,7 @@ app.on('sms',function(request,response){
             lien=request.url.replace('/sms','/recap')
           console.log("My account SMS is " + serviceName);
           ovh.request('POST', '/sms/' + serviceName + '/jobs/', {
-            message: 'Votre récapitulatif est disponible ici :\n'+lien,
+            message: 'Votre récapitulatif est disponible ici :\n'+'https://localexo1.loca.lt/'+lien,
             senderForResponse: true,
             receivers: ['0033'+url.parse(request.url,true).query.tel]
           }, function (errsend, result) {
@@ -86,5 +78,6 @@ app.on('sms',function(request,response){
           });
         }
       });
+      response.end()
 })
 
