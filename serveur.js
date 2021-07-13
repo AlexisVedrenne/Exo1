@@ -1,13 +1,13 @@
 let http= require('http')
 let fs= require('fs')
 let url= require('url')
+const localtunnel = require('localtunnel');
 const EventEmitter = require('events')
 const ovh = require('ovh')({
     appKey: 'Xw9N8B3qYjdLLJac',
     appSecret: 'aQrjqSxKcidBzHMJi1BHQMGBUqskb8KL',
     consumerKey: 'MCPucWVerDskP4nz7T9UnKmeom50vkx0'
   });
-const localtunnel = require('localtunnel');
 
 (async () => {
   const tunnel = await localtunnel({ port: 8080 });
