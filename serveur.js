@@ -7,7 +7,6 @@ let App={
     Start:function(port){
         let emitter= new EventEmitter()
         let serveur= http.createServer((request,response)=>{
-            console.log('Il y a eu une requete')
             response.writeHead(200,{
                 'content-type': 'text/html; charset=utf-8'                
             })
