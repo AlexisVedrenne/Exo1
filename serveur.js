@@ -78,6 +78,13 @@ app.on('sms',function(request,response){
           });
         }
       });
-      response.end()
+      fs.readFile('index.html','utf-8',(err,data)=>{
+        if(err){
+            response.end("Ce fichier n'existe pas")
+        }
+        else{
+            response.end(data)
+        }
+      })
 })
 
