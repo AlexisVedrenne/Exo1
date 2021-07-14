@@ -2,11 +2,12 @@ let http= require('http')
 let fs= require('fs')
 let url= require('url')
 const EventEmitter = require('events')
-const ovh = require('ovh')({
-    appKey: 'Xw9N8B3qYjdLLJac',
-    appSecret: 'aQrjqSxKcidBzHMJi1BHQMGBUqskb8KL',
-    consumerKey: 'MCPucWVerDskP4nz7T9UnKmeom50vkx0'
+let ovh = require('ovh')({
+    appKey: '',
+    appSecret: '',
+    consumerKey: ''
   });
+let modif=true
 
   //Variable qui fait office d'objet et permet de lancer le serveur, sert aussi de routeur sur le cite
 let App={
@@ -17,8 +18,7 @@ let App={
             response.writeHead(200,{
                 'content-type': 'text/html; charset=utf-8'                
             })
-            if(request.url==='/'){  
-                console.log(request.url)            
+            if(request.url==='/'){              
                 emitter.emit('index',response)
             }
             else if(request.url.includes('/recap')){
@@ -27,9 +27,16 @@ let App={
             else if(request.url.includes('/sms')){
                 emitter.emit('sms',request,response)
             }
-            else{
-                response.end()
+            else if(request.url.includes('/formulaire')){
+                emitter.emit('formulaire',request,response)
             }
+            else{
+                fs.readFile('pages/erreur.html','utf-8',(err,data)=>{
+                    response.end(data)
+                })
+                //response.end()
+            }
+
         }).listen(port)
         
         return emitter
@@ -39,12 +46,22 @@ let App={
 let app = App.Start(8080)
 
 //Evenement index qui va diriger sur la pages d'acceuil du cite
-app.on('index',function(response){
-    fs.readFile('index.html','utf-8',(err,data)=>{
+app.on('formulaire',function(request,response){
+    fs.readFile('pages/formulaire.html','utf-8',(err,data)=>{
         if(err){
-            response.end("Ce fichier n'existe pas")
+            fs.readFile('pages/erreur.html','utf-8',(err,data)=>{
+                response.end(data)
+            })
+            
         }
-        else{          
+        else{
+            let query=url.parse(request.url,true).query
+            if(modif==true){     
+                ovh.appKey=query.appkey
+                ovh.appSecret=query.secret
+                ovh.consumerKey=query.consumer
+                modif=false
+            }
             response.end(data)
         }
 })})
@@ -52,7 +69,9 @@ app.on('index',function(response){
 app.on('recap',function(request,response){
     fs.readFile('pages/recap.html','utf-8',(err,data)=>{
         if(err){
-            response.end("Ce fichier n'existe pas")
+            fs.readFile('pages/erreur.html','utf-8',(err,data)=>{
+                response.end(data)
+            })
         }
         else{
             let query=url.parse(request.url,true).query
@@ -84,7 +103,7 @@ app.on('sms',function(request,response){
           });
         }
       });
-      fs.readFile('index.html','utf-8',(err,data)=>{
+      fs.readFile('pages/formulaire.html','utf-8',(err,data)=>{
         if(err){
             response.end("Ce fichier n'existe pas")
         }
@@ -94,3 +113,19 @@ app.on('sms',function(request,response){
       })
 })
 
+app.on('index',function(response){
+     fs.readFile('index.html','utf-8',(err,data)=>{
+         if(err){
+            fs.readFile('pages/erreur.html','utf-8',(err,data)=>{
+                response.end(data)
+            })
+         }
+         else{
+             modif=true
+             data=data.replace('{{appkey}}',ovh.appKey)
+             data=data.replace('{{secret}}',ovh.appSecret)
+             data=data.replace('{{consumer}}',ovh.consumerKey)
+             response.end(data)
+         }
+     })
+})

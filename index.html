@@ -1,53 +1,36 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Exo1</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/styles.css">
     </head>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Exo 1</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Formulaire</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+
     </header>
     <body>
-        <br>
-        <h1 class="fw-bolder">Formulaire d'envoie sur SMS EXO 1 </h1>
-        <form method="GET" action="sms">
-            <div class="container-sm">
-                <div class="row col-5">
-                    <label class="form-label">Prenom</label>
-                    <input class="form-control" type="text" id="prenom" name="prenom" placeholder="Entrez votre de prénom" required>
-                    <label class="form-label">Nom</label>
-                    <input class="form-control" type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
-                    <label class="form-label">Date de naissance</label>
-                    <input class="form-control" type="date" id="date" name="date" placeholder="Entrez votre date de naissance" required>
-                </div>
-                <div class="row col-5">
-                    <label class="form-label">Téléphone</label>
-                    <input class="form-control" type="tel" id="tel" name="tel" placeholder="Entrez votre numéro de téléphone" required>
-                    <label class="form-label">Email</label>
-                    <input class="form-control" type="email" id="email" name="email" placeholder="Entrez votre adresse email" required>
-                    <label class="form-label">Adresse</label>
-                    <input class="form-control" type="text" id="adresse" name="adresse" placeholder="Entrez votre adresse" required>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-success">Envoyer</button>
+        <div style="margin-left: 30%; margin-top: 5%;"><h1 class="display-5">Entrez les informations pour l'API OVH</h1></div>
+        <div class="container-fluid row justify-content-center">
+        <form method="GET" class="col-4" action="formulaire" class="container-sm">
+            <div>
+                <div class="mb-3">
+                    <label class="form-label">App Key</label>
+                    <input id="appkey" name="appkey" type="text" class="form-control" placeholder="Entrez l'app key" value="{{appkey}}" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">App secret</label>
+                    <input id="secret" name="secret" type="text" class="form-control" placeholder="Entrez l'app secret" value="{{secret}}" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Consumer Key</label>
+                    <input id="consumer" name="consumer" type="text" class="form-control" placeholder="Entrez le consumer key" value="{{consumer}}" required>
+                  </div>
+                  
+                  <div style="margin-left: 30%;"><button style="margin-right: 2%;" class="btn btn-success" type="submit">Envoyer</button><button class="btn btn-danger" type="reset">Supprimer</button></div>
             </div>
         </form>
+        </div>
     </body>
 </html>
